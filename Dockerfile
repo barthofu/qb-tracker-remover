@@ -1,7 +1,11 @@
-FROM alpine:latest
+FROM debian:bookworm-slim
 
-RUN apk add --no-cache curl jq
+WORKDIR /app
 
-COPY entrypoint.sh /entrypoint.sh
+RUN apt update && \
+    apt install -y curl jq && \
+    apt clean
 
-ENTRYPOINT ["/entrypoint.sh"]
+COPY script.sh script.sh
+
+CMD ["/bin/bash", "script.sh"]
